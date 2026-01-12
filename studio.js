@@ -83,11 +83,16 @@ async function initializeStudio() {
     console.log('🎨 Inicializando PromptForge Studio v4.0...');
     
     try {
-        // 1. Verificar autenticação
-        console.log('🔐 Verificando autenticação...');
-        if (!window.auth || !window.auth.verificarAutenticacao()) {
-            throw new Error('Usuário não autenticado');
-        }
+       // 1. Verificar autenticação (MODO TESTE - DESABILITADO)
+console.log('🔐 Modo teste: autenticação desabilitada');
+if (!window.auth) {
+    // Criar mock de autenticação se não existir
+    window.auth = {
+        verificarAutenticacao: () => true,
+        getEmail: () => 'teste@promptforge.com',
+        getUser: () => ({ email: 'teste@promptforge.com', name: 'Teste' })
+    };
+}
         
         // 2. Inicializar i18n
         console.log('🌍 Inicializando idiomas...');
