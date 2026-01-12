@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PromptForge Studio v4.0 - Plataforma completa para criação de designs POD com IA">
+    <title>PromptForge Studio v4.0</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="studio.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="logo">🎨</div>
+            <h1>PromptForge Studio</h1>
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Inicializando...</p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="app-container" style="display: none;">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-section">
+                    <span class="logo-icon">🎨</span>
+                    <div class="logo-text">
+                        <h1>PromptForge</h1>
+                        <span class="version">v4.0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <div class="project-info">
+                    <span class="project-icon">📁</span>
+                    <span id="projectName" class="project-name">Novo Projeto</span>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <div class="credits-display">
+                    <span class="credits-icon">💳</span>
+                    <span id="creditsBalance" class="credits-amount">0</span>
+                    <span class="credits-label">créditos</span>
+                </div>
+                
+                <div class="user-menu">
+                    <button class="btn-icon" id="btnSettings" title="Configurações">
+                        ⚙️
+                    </button>
+                    <button class="btn-icon" id="btnHistory" title="Histórico">
+                        📚
+                    </button>
+                    <button class="btn-icon" id="btnProfile" title="Perfil">
+                        👤
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" data-step="select">
+                        <span class="nav-icon">🎯</span>
+                        <span class="nav-text">Seleção</span>
+                        <span class="nav-badge">1</span>
+                    </button>
+                    
+                    <button class="nav-item" data-step="generate">
+                        <span class="nav-icon">🤖</span>
+                        <span class="nav-text">Gerar</span>
+                        <span class="nav-badge">2</span>
+                    </button>
+                    
+                    <button class="nav-item" data-step="process">
+                        <span class="nav-icon">✨</span>
+                        <span class="nav-text">Processar</span>
+                        <span class="nav-badge">3</span>
+                    </button>
+                    
+                    <button class="nav-item" data-step="mockups">
+                        <span class="nav-icon">👕</span>
+                        <span class="nav-text">Mockups</span>
+                        <span class="nav-badge">4</span>
+                    </button>
+                    
+                    <button class="nav-item" data-step="content">
+                        <span class="nav-icon">✍️</span>
+                        <span class="nav-text">Conteúdo</span>
+                        <span class="nav-badge">5</span>
+                    </button>
+                    
+                    <button class="nav-item" data-step="download">
+                        <span class="nav-icon">📦</span>
+                        <span class="nav-text">Download</span>
+                        <span class="nav-badge">6</span>
+                    </button>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <button class="btn-secondary btn-block" id="btnNewProject">
+                        📄 Novo Projeto
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Content Area -->
+            <section class="content-area">
+                
+                <!-- Step 1: Selection -->
+                <div class="step-content active" data-step="select">
+                    <div class="step-header">
+                        <h2>🎯 Configure seu Design</h2>
+                        <p>Selecione o nicho, estilo e descreva sua ideia</p>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="selectNicho">
+                                <span class="label-icon">🎨</span>
+                                Nicho
+                            </label>
+                            <select id="selectNicho" class="form-control">
+                                <option value="">Selecione um nicho...</option>
+                            </select>
+                            <small class="form-hint">Escolha o tema principal do seu design</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="selectCategoria">
+                                <span class="label-icon">📂</span>
+                                Categoria
+                            </label>
+                            <select id="selectCategoria" class="form-control">
+                                <option value="">Categoria automática</option>
+                            </select>
+                            <small class="form-hint">Opcional: refine o nicho</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="selectEstilo">
+                                <span class="label-icon">🎭</span>
+                                Estilo Visual
+                            </label>
+                            <select id="selectEstilo" class="form-control">
+                                <option value="">Selecione um estilo...</option>
+                            </select>
+                            <small class="form-hint">Define a aparência do design</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="selectPaleta">
+                                <span class="label-icon">🎨</span>
+                                Paleta de Cores
+                            </label>
+                            <select id="selectPaleta" class="form-control">
+                                <option value="auto">Automática</option>
+                            </select>
+                            <small class="form-hint">Esquema de cores do design</small>
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label for="textIdeia">
+                                <span class="label-icon">💡</span>
+                                Sua Ideia
+                            </label>
+                            <textarea 
+                                id="textIdeia" 
+                                class="form-control" 
+                                rows="4"
+                                placeholder="Descreva sua ideia em detalhes... Ex: 'Um gato fofo usando óculos de sol, estilo cartoon, com citação engraçada'"
+                            ></textarea>
+                            <div class="form-footer">
+                                <small class="form-hint">Seja específico para melhores resultados</small>
+                                <span class="char-count"><span id="ideaCharCount">0</span>/500</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn-primary btn-large" id="btnStartWorkflow">
+                            🚀 Gerar Tudo Automaticamente
+                        </button>
+                        <button class="btn-secondary" id="btnGenerateOnly">
+                            🎨 Apenas Gerar Design
+                        </button>
+                    </div>
+                    
+                    <div class="cost-preview" id="costPreview">
+                        <div class="cost-item">
+                            <span>💰 Custo estimado:</span>
+                            <strong><span id="costAmount">3</span> créditos</strong>
+                        </div>
+                        <div class="cost-breakdown" id="costBreakdown">
+                            <small>• 1 crédito: Design</small>
+                            <small>• 1 crédito: Remover fundo</small>
+                            <small>• 1 crédito: Post social</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Generate -->
+                <div class="step-content" data-step="generate">
+                    <div class="step-header">
+                        <h2>🤖 Gerando Design</h2>
+                        <p>A IA está criando seu design...</p>
+                    </div>
+                    
+                    <div class="result-preview" id="generateResult">
+                        <div class="preview-placeholder">
+                            <div class="placeholder-icon">🎨</div>
+                            <p>O design aparecerá aqui</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn-secondary" id="btnRegenerateImage">
+                            🔄 Gerar Novamente
+                        </button>
+                        <button class="btn-primary" id="btnContinueProcess" disabled>
+                            ➡️ Continuar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Process -->
+                <div class="step-content" data-step="process">
+                    <div class="step-header">
+                        <h2>✨ Processar Imagem</h2>
+                        <p>Remover fundo e otimizar</p>
+                    </div>
+                    
+                    <div class="comparison-view" id="processComparison">
+                        <div class="comparison-side">
+                            <h4>Original</h4>
+                            <div class="preview-placeholder">
+                                <div class="placeholder-icon">🖼️</div>
+                            </div>
+                        </div>
+                        <div class="comparison-side">
+                            <h4>Sem Fundo</h4>
+                            <div class="preview-placeholder">
+                                <div class="placeholder-icon">✨</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn-secondary" id="btnSkipProcess">
+                            ⏭️ Usar Original
+                        </button>
+                        <button class="btn-primary" id="btnRemoveBackground">
+                            ✨ Remover Fundo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Mockups -->
+                <div class="step-content" data-step="mockups">
+                    <div class="step-header">
+                        <h2>👕 Gerar Mockups</h2>
+                        <p>Visualize o design em produtos</p>
+                    </div>
+                    
+                    <div class="mockup-grid" id="mockupGrid">
+                        <!-- Mockups aparecerão aqui -->
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn-secondary" id="btnRegenerateMockups">
+                            🔄 Gerar Novamente
+                        </button>
+                        <button class="btn-primary" id="btnContinueContent">
+                            ➡️ Continuar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Content -->
+                <div class="step-content" data-step="content">
+                    <div class="step-header">
+                        <h2>✍️ Conteúdo Gerado</h2>
+                        <p>Copy de vendas e posts sociais</p>
+                    </div>
+                    
+                    <div class="content-tabs">
+                        <button class="tab-button active" data-tab="sales">
+                            📝 Copy de Vendas
+                        </button>
+                        <button class="tab-button" data-tab="social">
+                            📱 Posts Sociais
+                        </button>
+                    </div>
+                    
+                    <div class="tab-content active" data-tab="sales">
+                        <div class="content-card" id="salesCopyContent">
+                            <div class="loading-placeholder">
+                                <div class="placeholder-icon">✍️</div>
+                                <p>Copy de vendas aparecerá aqui</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" data-tab="social">
+                        <div class="content-card" id="socialPostsContent">
+                            <div class="loading-placeholder">
+                                <div class="placeholder-icon">📱</div>
+                                <p>Posts sociais aparecerão aqui</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn-secondary" id="btnRegenerateContent">
+                            🔄 Gerar Novamente
+                        </button>
+                        <button class="btn-primary" id="btnContinueDownload">
+                            ➡️ Preparar Download
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Download -->
+                <div class="step-content" data-step="download">
+                    <div class="step-header">
+                        <h2>📦 Pronto para Download</h2>
+                        <p>Seu pacote completo está pronto!</p>
+                    </div>
+                    
+                    <div class="download-preview" id="downloadPreview">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">🎨</div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="statDesign">1</div>
+                                    <div class="stat-label">Design</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">👕</div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="statMockups">0</div>
+                                    <div class="stat-label">Mockups</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📝</div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="statCopy">0</div>
+                                    <div class="stat-label">Copy</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📱</div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="statPosts">0</div>
+                                    <div class="stat-label">Posts</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="package-info">
+                            <h4>📁 Conteúdo do Pacote</h4>
+                            <ul id="packageFileList">
+                                <li>📸 design_no_background.png</li>
+                                <li>📋 info.json</li>
+                                <li>📄 README.txt</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn-primary btn-large" id="btnDownloadPackage">
+                            📥 Baixar Pacote Completo
+                        </button>
+                        <button class="btn-secondary" id="btnStartNew">
+                            🆕 Novo Projeto
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Progress Panel -->
+            <aside class="progress-panel" id="progressPanel" style="display: none;">
+                <div class="progress-header">
+                    <h3>⏳ Processando...</h3>
+                    <button class="btn-close" id="btnCloseProgress">×</button>
+                </div>
+                
+                <div class="progress-content">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Iniciando...</div>
+                    <div class="progress-percent" id="progressPercent">0%</div>
+                </div>
+                
+                <div class="progress-steps" id="progressSteps">
+                    <div class="progress-step" data-step="generate">
+                        <span class="step-icon">🤖</span>
+                        <span class="step-name">Gerar Design</span>
+                        <span class="step-status">⏳</span>
+                    </div>
+                    <div class="progress-step" data-step="process">
+                        <span class="step-icon">✨</span>
+                        <span class="step-name">Processar</span>
+                        <span class="step-status">⏳</span>
+                    </div>
+                    <div class="progress-step" data-step="mockups">
+                        <span class="step-icon">👕</span>
+                        <span class="step-name">Mockups</span>
+                        <span class="step-status">⏳</span>
+                    </div>
+                    <div class="progress-step" data-step="content">
+                        <span class="step-icon">✍️</span>
+                        <span class="step-name">Conteúdo</span>
+                        <span class="step-status">⏳</span>
+                    </div>
+                </div>
+            </aside>
+
+        </main>
+
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚙️ Configurações</h3>
+                <button class="btn-close" data-modal="settingsModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <h4>🌍 Idioma</h4>
+                    <select id="settingLanguage" class="form-control">
+                        <option value="pt">🇧🇷 Português</option>
+                        <option value="en">🇺🇸 English</option>
+                        <option value="es">🇪🇸 Español</option>
+                    </select>
+                </div>
+                
+                <div class="settings-group">
+                    <h4>🤖 Processamento Automático</h4>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="settingRemoveBg" checked>
+                        <span>Remover fundo automaticamente</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="settingGenerateMockups" checked>
+                        <span>Gerar mockups automaticamente</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="settingGenerateCopy" checked>
+                        <span>Gerar copy de vendas</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="settingGenerateSocial" checked>
+                        <span>Gerar posts sociais</span>
+                    </label>
+                </div>
+                
+                <div class="settings-group">
+                    <h4>💾 Projeto</h4>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="settingAutoSave" checked>
+                        <span>Salvar automaticamente</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" data-modal="settingsModal">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>📚 Histórico de Projetos</h3>
+                <button class="btn-close" data-modal="historyModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="projectHistory">
+                    <div class="empty-state">
+                        <div class="empty-icon">📁</div>
+                        <p>Nenhum projeto salvo ainda</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="auth.js"></script>
+    <script src="i18n.js"></script>
+    <script src="data.js"></script>
+    <script src="api.js"></script>
+    <script src="credits.js"></script>
+    <script src="background.js"></script>
+    <script src="mockup.js"></script>
+    <script src="download.js"></script>
+    <script src="studio.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
